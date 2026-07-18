@@ -1,0 +1,13 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zero Hour RP Videos</title><link rel="stylesheet" href="style.css"></head><body>
+
+<header class="topbar"><div class="topbar-inner">
+<a class="brand" href="index.html"><img src="zero-hour-logo.png"><span class="brand-name">ZERO HOUR RP VIDEOS</span></a>
+<form class="searchbar" id="searchForm"><input id="searchInput" placeholder="Search Zero Hour RP videos"><button>Search</button></form>
+<div class="top-actions"><a class="btn btn-outline desktop-label" data-discord target="_blank">Discord</a><a class="btn btn-red desktop-label" data-fivem target="_blank">Join Server</a><a class="btn hidden" id="dashboardLink" href="dashboard.html">Dashboard</a><button class="btn" id="loginBtn">Staff Login</button><button class="btn hidden" id="logoutBtn">Log Out</button></div>
+</div></header>
+<main class="public-main"><div class="notice hidden" id="setupWarning"><strong>Supabase setup required:</strong> Add your Project URL and anon key to <code>config.js</code>.</div>
+<section class="hero"><div><h1>ZERO HOUR RP VIDEOS</h1><p>The official video hub for Zero Hour RP. Watch server trailers, updates, tutorials, events, custom-script showcases, community moments, police videos, EMS videos, and more.</p><div class="actions" style="justify-content:flex-start"><a class="btn btn-red" href="#latest">Browse Videos</a><a class="btn btn-outline" data-discord target="_blank">Join Discord</a></div></div><img src="zero-hour-logo.png"></section>
+<div class="section-head" id="latest"><h2>Latest Videos</h2></div><div class="category-row" id="categoryRow"></div><div class="video-grid" id="videoGrid"></div><div class="empty" id="emptyState"><h3>No videos have been uploaded yet.</h3><p class="muted">Once approved staff publishes a video, it will appear here for everybody.</p></div></main>
+<footer>© 2026 Zero Hour RP • Official Video Hub</footer>
+<div class="modal hidden" id="loginModal"><div class="modal-box"><h2>Staff Login</h2><div class="notice">Only approved Zero Hour RP staff can upload and manage videos.</div><form id="loginForm"><div class="field"><label>Email</label><input type="email" id="loginEmail" required></div><div class="field"><label>Password</label><input type="password" id="loginPassword" required></div><div class="actions"><button type="button" class="btn" id="closeLogin">Cancel</button><button class="btn btn-red">Sign In</button></div></form></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script src="app.js"></script></body></html>

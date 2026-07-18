@@ -1,0 +1,79 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zero Hour RP Staff Panel</title><link rel="stylesheet" href="style.css"></head><body class="admin-body">
+<div class="admin-shell">
+<aside class="sidebar" id="sidebar">
+  <a class="side-brand" href="index.html"><img src="zero-hour-logo.png"><span>ZERO HOUR RP</span></a>
+  <nav class="side-nav">
+    <a href="#overview" class="side-link active" data-page="overview"><span class="side-icon">🏠</span><span>Overview</span></a>
+    <a href="#upload" class="side-link" data-page="upload"><span class="side-icon">⬆️</span><span>Upload Video</span></a>
+    <a href="#videos" class="side-link" data-page="videos"><span class="side-icon">🎬</span><span>Videos</span></a>
+    <a href="#categories" class="side-link" data-page="categories"><span class="side-icon">📁</span><span>Categories</span></a>
+    <a href="#comments" class="side-link" data-page="comments"><span class="side-icon">💬</span><span>Comments</span></a>
+    <a href="#staff" class="side-link" data-page="staff" data-admin-only><span class="side-icon">👥</span><span>Staff</span></a>
+    <a href="#analytics" class="side-link" data-page="analytics"><span class="side-icon">📊</span><span>Analytics</span></a>
+    <a href="#settings" class="side-link" data-page="settings"><span class="side-icon">⚙️</span><span>Settings</span></a>
+  </nav>
+  <div class="side-bottom">
+    <a class="btn btn-outline" href="index.html"><span>View Website</span></a>
+    <button class="btn btn-danger" id="panelLogout"><span>Log Out</span></button>
+  </div>
+</aside>
+<section class="admin-content">
+<header class="admin-topbar"><div style="display:flex;align-items:center;gap:10px"><button class="btn mobile-menu" id="mobileMenu">☰</button><h1 id="panelTitle">Overview</h1></div><div class="admin-top-actions"><div><strong id="staffName">Staff</strong><div class="muted small" id="staffRole">role</div></div><img src="zero-hour-logo.png" style="width:42px;height:42px;object-fit:contain"></div></header>
+<main class="admin-main">
+<div class="notice hidden" id="adminSetupWarning"><strong>Setup required:</strong> Add your Supabase URL and anon key to <code>config.js</code>, then run <code>supabase/schema.sql</code>.</div>
+
+<section class="panel-page active" id="page-overview">
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-label">TOTAL VIDEOS</div><div class="stat-value" id="statVideos">0</div><div class="stat-trend">All uploaded content</div></div>
+<div class="stat-card"><div class="stat-label">PUBLIC VIDEOS</div><div class="stat-value" id="statPublic">0</div><div class="stat-trend">Visible to everybody</div></div>
+<div class="stat-card"><div class="stat-label">TOTAL VIEWS</div><div class="stat-value" id="statViews">0</div><div class="stat-trend">Across all videos</div></div>
+<div class="stat-card"><div class="stat-label">COMMENTS</div><div class="stat-value" id="statComments">0</div><div class="stat-trend">Community activity</div></div>
+</div>
+<div class="quick-actions">
+<button class="quick-card" data-page="upload"><strong>⬆️ Upload a Video</strong><span class="muted">Publish a new video for everyone.</span></button>
+<button class="quick-card" data-page="categories"><strong>📁 Manage Categories</strong><span class="muted">Add or remove video categories.</span></button>
+<button class="quick-card" data-page="comments"><strong>💬 Review Comments</strong><span class="muted">View and delete public comments.</span></button>
+</div>
+<div class="panel-card" style="margin-top:18px"><h2>Recent Videos</h2><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Video</th><th>Status</th><th>Views</th><th>Date</th></tr></thead><tbody id="recentVideos"></tbody></table></div></div>
+</section>
+
+<section class="panel-page" id="page-upload">
+<div class="panel-card"><h2>Upload Video</h2><div class="notice success"><strong>Public</strong> videos are uploaded to shared storage and appear for every visitor on phones, computers, and tablets.</div>
+<form id="uploadForm">
+<div class="row"><div class="field"><label>Video Title *</label><input id="videoTitle" maxlength="150" required></div><div class="field"><label>Category *</label><input id="videoCategory" list="categorySuggestions" placeholder="Choose or type a new category" required><datalist id="categorySuggestions"></datalist><div class="hint">Typing a new name creates a new category automatically.</div></div></div>
+<div class="field"><label>Description</label><textarea id="videoDescription" maxlength="5000" placeholder="Describe the video..."></textarea></div>
+<div class="row"><div class="field"><label>Visibility</label><select id="videoStatus"><option value="public">Public — visible to everybody</option><option value="draft">Draft — staff only</option></select></div><div class="field"><label>Custom Thumbnail (optional)</label><input type="file" id="thumbFile" accept="image/jpeg,image/png,image/webp"><div class="hint">The Zero Hour RP logo is used when no thumbnail is selected.</div></div></div>
+<div class="upload-drop"><div class="field"><label>Video File * (MP4 or WebM)</label><input type="file" id="videoFile" accept="video/mp4,video/webm" required></div></div>
+<div class="hidden" id="uploadProgressBox"><div class="muted small">Uploading—keep this page open.</div><div class="progress"><span id="uploadProgress"></span></div></div>
+<div class="actions"><button class="btn btn-red" id="uploadSubmit">Upload Video</button></div>
+</form></div>
+</section>
+
+<section class="panel-page" id="page-videos">
+<div class="panel-card"><div class="section-head" style="margin-top:0"><h2>All Videos</h2><button class="btn btn-red" data-page="upload">Upload New</button></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Video</th><th>Category</th><th>Status</th><th>Views</th><th>Date</th><th>Actions</th></tr></thead><tbody id="videoTableBody"></tbody></table></div></div>
+</section>
+
+<section class="panel-page" id="page-categories">
+<div class="panel-grid"><div class="panel-card"><h2>Categories</h2><div class="category-grid" id="categoryGrid"></div></div><div class="panel-card"><h2>Create Category</h2><form id="newCategoryForm"><div class="field"><label>Category Name</label><input id="newCategoryName" maxlength="80" required placeholder="Example: Police Roleplay"></div><button class="btn btn-red">Add Category</button></form></div></div>
+</section>
+
+<section class="panel-page" id="page-comments">
+<div class="panel-card"><h2>Comments</h2><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Name</th><th>Video</th><th>Comment</th><th>Date</th><th>Action</th></tr></thead><tbody id="commentTableBody"></tbody></table></div></div>
+</section>
+
+<section class="panel-page" id="page-staff" data-admin-only>
+<div class="panel-card"><h2>Staff Management</h2><div class="notice">First create each staff member in Supabase Authentication. Then approve the account here and assign uploader, admin, or owner.</div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Staff Member</th><th>Role</th><th>Status</th><th>Action</th></tr></thead><tbody id="staffTableBody"></tbody></table></div></div>
+</section>
+
+<section class="panel-page" id="page-analytics">
+<div class="stats-grid"><div class="stat-card"><div class="stat-label">VIDEOS</div><div class="stat-value" id="statVideos2">See overview</div></div><div class="stat-card"><div class="stat-label">ANALYTICS SOURCE</div><div class="stat-value" style="font-size:20px">Live Database</div></div></div>
+<div class="panel-card"><h2>Top Videos by Views</h2><div class="analytics-bars" id="analyticsBars"></div></div>
+</section>
+
+<section class="panel-page" id="page-settings">
+<div class="panel-grid"><div class="panel-card"><h2>Website Links</h2><div class="field"><label>Discord</label><input value="https://discord.gg/8rCsghjneQ" readonly></div><div class="field"><label>FiveM Server</label><input value="https://servers.fivem.net/servers/detail/oaxomey" readonly></div><p class="muted small">Edit these values in <code>config.js</code>.</p></div><div class="panel-card"><h2>Backend Status</h2><p>Shared videos require Supabase.</p><ul class="muted"><li>Public storage bucket</li><li>Video database</li><li>Staff authentication</li><li>Security roles</li><li>Global public viewing</li></ul></div></div>
+</section>
+
+</main></section></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script><script>const cfg=window.ZERO_HOUR_CONFIG;</script><script src="admin.js"></script>
+</body></html>
